@@ -1,5 +1,6 @@
 --what are the skills required for these top-paying roles?
 with top_paying_jobs_skills as 
+
 (SELECT 
 jp.job_id,
 job_title,
@@ -20,3 +21,4 @@ SELECT tpjs.*, skills from
 top_paying_jobs_skills   as tpjs
 JOIN   skills_job_dim    as sj  on tpjs.job_id=sj.job_id
 JOIN   skills_dim        as sd  on sj.skill_id=sd.skill_id
+ORDER BY salary_year_avg DESC
