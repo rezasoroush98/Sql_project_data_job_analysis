@@ -5,9 +5,12 @@ job_id,
 job_title_short,
 job_location,
 job_schedule_type,
-salary_year_avg
+salary_year_avg,
+job_posted_date,
+name as company_name
 
-from job_postings_fact
+from job_postings_fact as jp
+LEFT JOIN company_dim  as cd ON jp.company_id=cd.company_id
 
 where job_title_short='Data Analyst' and
       salary_year_avg is NOT NULL and
