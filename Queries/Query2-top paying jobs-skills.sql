@@ -1,23 +1,22 @@
 --what are the skills required for these top-paying roles?
-SELECT 
+with top_paying_jobs_skills as 
+(SELECT 
 jp.job_id,
-job_title_short,
-job_location,
-job_schedule_type,
+job_title,
 salary_year_avg,
-job_posted_date,
-name as company_name,
-sd.skills
+name as company_name
 
 from job_postings_fact         as   jp
 LEFT JOIN company_dim          as   cd   ON jp.company_id=cd.company_id
-LEFT JOIN skills_job_dim       as   sj   ON jp.job_id=sj.job_id
-LEFT JOIN  skills_dim          as   sd   ON sj.skill_id=sd.skill_id
 
 where job_title_short='Data Analyst' and
       salary_year_avg is NOT NULL and
-      job_location = 'Anywhere' and 
-      sd.skills is not NULL
+      job_location = 'Anywhere'
 
 ORDER BY salary_year_avg DESC
+)
 
+SELECT tpjs.*, skills from 
+top_paying_jobs_skills   as tpjs
+JOIN   skills_job_dim    as sj  on tpjs.job_id=sj.job_id
+JOIN   skills_dim        as sd  on sj.skill_id=sd.skill_id
